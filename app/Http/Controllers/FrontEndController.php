@@ -149,7 +149,6 @@ class FrontEndController extends Controller
     {
         $hasQuery = \Request::has('q') && strlen(\Request::input('q')) > 1;
         $hasLocation = \Request::has('location') && strlen(\Request::input('location')) > 1;
-echo"hi";
         //0. Check if it has DB access - otherwise go to install
         try {
             \DB::connection()->getPdo();
