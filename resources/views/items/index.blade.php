@@ -79,7 +79,9 @@
                         @endif
                        
                         @foreach ($categories as $index => $category)
+                        <div id="render-{{$category->id}}">
                         @if($category->active == 1)
+                        
                         <div class="alert alert-default">
                             <div class="row">
                                 <div class="col">
@@ -172,6 +174,21 @@
                                             </a>
                                         </div>
                                     @endforeach
+                                    @foreach ( $category->subcategorys as $subcategory)
+                                            <div class="col-lg-3">
+                                                <a href="javascript:void(0);" onclick="getCategory({{$subcategory->id}}, {{$category->id}})">
+                                                    <div class="card">
+                                                        <img class="card-img-top" src="{{ asset('/uploads/restorants/subcategorys/') }}/{{ $subcategory->image }}_medium.jpg" alt="...">
+                                                        <div class="card-body">
+                                                            <h3 class="card-title text-primary text-uppercase">{{ $subcategory->name }}</h3>
+                                                            <p class="card-text description mt-3">{{ $subcategory->description }}</p>
+
+                                                        </div>
+                                                    </div>
+                                                    <br/>
+                                                </a>
+                                                </div>
+                                    @endforeach
                                     @if($canAdd)
                                     <div class="col-lg-3" >
                                         <a   data-toggle="modal" data-target="#modal-new-item" data-toggle="tooltip" data-placement="top" href="javascript:void(0);" onclick=(setSelectedCategoryId({{ $category->id }}))>
@@ -184,11 +201,23 @@
                                         </a>
                                         <br />
                                     </div>
+                                    <div class="col-lg-3" >
+                                        <a id="subcategory_add" data-toggle="tooltip" data-placement="top" onclick="return addSubs({{$category->id}})" href="javascript:void(0);" onclick=(setSelectedCategoryId({{ $category->id }}))>
+                                            <div class="card">
+                                                <img class="card-img-top" src="{{ asset('images') }}/default/add_new_item.jpg" alt="...">
+                                                <div class="card-body">
+                                                    <h3 class="card-title text-primary text-uppercase">Add sub-category</h3>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <br />
+                                    </div>
                                     @endif
                                 </div>
                             </div>
                         </div>
                         @endif
+                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -198,7 +227,34 @@
 @endsection
 
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script>
+function addSubs(id_parent)
+{
+    $('#categoryparent_id').val(id_parent);
+    $('#modal-new-subcategory').modal('show');
+}
+
+function getCategory(id_category, idparent) {
+    
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+           type:'POST',
+           url:"{{ route('subcategory.get') }}",
+           data:{id:id_category},
+           dataType: 'HTML',
+           success:function(data){
+              $('#render-'+idparent).html(data)
+             
+           }
+        });
+         }
   $("[data-target='#modal-edit-category']").on('click',function() {
     var id = $(this).attr('data-id');
     var name = $(this).attr('data-name');
@@ -208,5 +264,6 @@
     $('#cat_name').val(name);
     $("#form-edit-category").attr("action", "/categories/"+id);
 })
+
 </script>
 @endsection

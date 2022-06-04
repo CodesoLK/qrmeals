@@ -44,4 +44,9 @@ class Categories extends TranslateAwareModel implements Sortable
     {
         return $this->belongsTo(\App\Restorant::class);
     }
+
+    public function subcategorys()
+    {
+        return $this->hasMany(\App\Categories::class, 'parent_id', 'id');
+    }
 }

@@ -150,7 +150,7 @@ class FrontEndController extends Controller
         $hasQuery = \Request::has('q') && strlen(\Request::input('q')) > 1;
         $hasLocation = \Request::has('location') && strlen(\Request::input('location')) > 1;
         //0. Check if it has DB access - otherwise go to install
-        echo "this is the second commit";
+        echo "this is the second commit and this is the fourth";
         try {
             \DB::connection()->getPdo();
         } catch (\Exception $e) {
@@ -850,7 +850,7 @@ class FrontEndController extends Controller
 
 
 
-           $viewData=[
+           $viewData=[ 
                 'wh'=>$wh,
                 'allergens'=>in_array("allergens", config('global.modules',[]))?Allergens::where('post_type','allergen')->get():[],
                 'currentDay'=>strtolower((new DateTime())->format('l')),

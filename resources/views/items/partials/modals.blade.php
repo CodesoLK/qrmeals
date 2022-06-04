@@ -165,6 +165,135 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-new-item" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title-new-item">{{ __('Add new item') }}</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="card bg-secondary shadow border-0">
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <form role="form" method="post" action="{{ route('items.store') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group{{ $errors->has('item_name') ? ' has-danger' : '' }}">
+                                <input class="form-control" name="item_name" id="item_name" placeholder="{{ __('Item name') }} ..." type="text" required>
+                                @if ($errors->has('item_name'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('item_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group{{ $errors->has('item_description') ? ' has-danger' : '' }}">
+                                <textarea class="form-control" id="item_description" name="item_description" rows="3" placeholder="{{ __('Item description') }} ..." required></textarea>
+                                @if ($errors->has('item_description'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('item_description') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group{{ $errors->has('item_price') ? ' has-danger' : '' }}">
+                                <input class="form-control" name="item_price" id="item_price" placeholder="{{ __('Item Price') }} ..." type="number" step="any" required>
+                                @if ($errors->has('item_price'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('item_price') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group text-center{{ $errors->has('item_image') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="item_image">{{ __('Item Image') }}</label>
+                                <div class="text-center">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview img-thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+                                            <img src="https://www.fastcat.com.ph/wp-content/uploads/2016/04/dummy-post-square-1-768x768.jpg" width="200px" height="150px" alt="..."/>
+                                        </div>
+                                    <div>
+                                    <span class="btn btn-outline-secondary btn-file">
+                                    <span class="fileinput-new">{{ __('Select image') }}</span>
+                                    <span class="fileinput-exists">{{ __('Change') }}</span>
+                                        <input type="file" name="item_image" accept="image/x-png,image/gif,image/jpeg">
+                                    </span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists" data-dismiss="fileinput">{{ __('Remove') }}</a>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
+                            <input name="category_id" id="category_id" type="hidden" required>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary my-4">{{ __('Save') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><div class="modal fade" id="modal-new-subcategory" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title-new-item">Add new subcategory</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="card bg-secondary shadow border-0">
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <form role="form" method="post" action="{{ route('subcategory.store') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group{{ $errors->has('subcategory_name') ? ' has-danger' : '' }}">
+                                <input class="form-control" name="subcategory_name" id="item_name" placeholder="Subcategory name ..." type="text" required>
+                                @if ($errors->has('subcategory_name'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('subcategory_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group{{ $errors->has('item_description') ? ' has-danger' : '' }}">
+                                <textarea class="form-control" id="subcategory_description" name="item_description" rows="3" placeholder="Subcategory description ..." required></textarea>
+                                @if ($errors->has('subcategory_description'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('subcategory_description') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group text-center{{ $errors->has('item_image') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="item_image">{{ __('Sub-Category Image') }}</label>
+                                <div class="text-center">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview img-thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+                                            <img src="https://www.fastcat.com.ph/wp-content/uploads/2016/04/dummy-post-square-1-768x768.jpg" width="200px" height="150px" alt="..."/>
+                                        </div>
+                                    <div>
+                                    <span class="btn btn-outline-secondary btn-file">
+                                    <span class="fileinput-new">{{ __('Select image') }}</span>
+                                    <span class="fileinput-exists">{{ __('Change') }}</span>
+                                        <input type="file" name="subcategory_image" accept="image/x-png,image/gif,image/jpeg">
+                                    </span>
+                                    <a href="#" class="btn btn-outline-secondary fileinput-exists" data-dismiss="fileinput">{{ __('Remove') }}</a>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
+                            <input name="category_id" id="categoryparent_id" type="hidden" required>
+                            <input name="restorant_id" id="restorant_id" value='{{ $restorant_id }}' type="hidden" required>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary my-4">{{ __('Save') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-import-items" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
         <div class="modal-content">

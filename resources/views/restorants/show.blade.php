@@ -87,6 +87,7 @@
                         <a class="nav-link  mb-sm-3 mb-md-0 active" data-toggle="tab" role="tab" href="">{{ __('All categories') }}</a>
                     </li>
                     @foreach ( $restorant->categories as $key => $category)
+                    
                         @if(!$category->aitems->isEmpty())
                             <li class="nav-item nav-item-category" id="{{ 'cat_'.clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">
                                 <a class="nav-link mb-sm-3 mb-md-0" data-toggle="tab" role="tab" id="{{ 'nav_'.clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}" href="#{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">{{ $category->name }}</a>
@@ -106,13 +107,17 @@
 
             @if(!$restorant->categories->isEmpty())
             @foreach ( $restorant->categories as $key => $category)
+                @php
+                    $categ_id = clean(str_replace(' ', '', strtolower($category->name)).strval($key))  ;
+                @endphp
                 @if(!$category->aitems->isEmpty())
-                <div id="{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}" class="{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">
+                <div id="{{ $categ_id }}" class="{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">
                     <h1>{{ $category->name }}</h1><br />
                 </div>
                 @endif
-                <div class="row {{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">
-                    @foreach ($category->aitems as $item)
+                <div class="row {{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }} append_{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">
+                 
+                @foreach ($category->aitems as $item)
                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
                             <div class="strip">
                                 @if(!empty($item->image))
@@ -140,7 +145,11 @@
                            
                             </div>
                         </div>
-                    @endforeach
+                @endforeach
+                @include('restorants.partials.category', [
+                    'categorys' => $category->subcategorys,
+                    'section' => $categ_id
+                ])
                 </div>
             @endforeach
             @else
@@ -248,6 +257,33 @@
         var LOCALE="<?php echo  App::getLocale() ?>";
         var IS_POS=false;
         var TEMPLATE_USED="<?php echo config('settings.front_end_template','defaulttemplate') ?>";
+        function enterCategory(id_categ, section)
+        {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type:'POST',
+                url:"{{ route('restaurant.ajax') }}",
+                data:{
+                    id:id_categ,
+                    categ_id:section
+                },
+                dataType: 'HTML',
+                success:function(data){
+                    $('.append_'+section).html(data)
+                    $('html, body').animate({
+                        scrollTop: $("#"+section).offset().top - 140
+                    }, 2000);
+                }
+            });
+   
+            
+            
+        }
     </script>
     <script src="{{ asset('custom') }}/js/order.js"></script>
     @include('restorants.phporderinterface') 

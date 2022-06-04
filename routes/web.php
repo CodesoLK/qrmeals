@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'FrontEndController@index')->name('front');
+Route::post('restaurantsubcategory/get', 'RestorantController@ajaxsubcateg')->name('restaurant.ajax');
 Route::get('/'.config('settings.url_route').'/{alias}', 'FrontEndController@restorant')->name('vendor');
 Route::get('/city/{city}', 'FrontEndController@showStores')->name('show.stores');
 Route::get('/lang', 'FrontEndController@langswitch')->name('lang.switch');
@@ -112,6 +113,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('coupons', 'CouponsController@store')->name('coupons.store');
             Route::put('coupons/{coupon}', 'CouponsController@update')->name('coupons.update');
             Route::get('coupons/del/{coupon}', 'CouponsController@destroy')->name('coupons.delete');
+           
 
            
 
@@ -180,7 +182,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 
+    // edited route from moussa codeso to add sub menus feature
     Route::resource('items', 'ItemsController')->middleware('isOwnerOnPro');
+    Route::post('subcategory/add', 'ItemsController@subcategory')->name('subcategory.store')->middleware('isOwnerOnPro');
+    Route::post('subcategory/get', 'ItemsController@ajaxsubcateg')->name('subcategory.get')->middleware('isOwnerOnPro');
+
+
     Route::prefix('items')->name('items.')->group(function () {
         Route::get('reorder/{up}', 'ItemsController@reorderCategories')->name('reorder');
         Route::get('list/{restorant}', 'ItemsController@indexAdmin')->name('admin');

@@ -1,10 +1,8 @@
 <?php
 
 return array (
-  'featured_clients'=>"Featured clients",
-  'list_of_featured_clients'=>"Here is a list of some of our clients",
   'below' => 'below',
-  'contactles_menu' => 'Contact-less QR Menu',
+  'contactles_menu' => 'sss',
   'cookies' => 'Cookies',
   'dashboard' => 'Dashboard',
   'demo' => 'Demo',
@@ -12,6 +10,7 @@ return array (
   'demo_subtitle' => 'Just open the camera on your phone and scan the',
   'demo_title' => 'See a demo online menu',
   'edit' => 'Edit Page',
+  'featured_clients' => 'Featured clients',
   'helpful_links' => 'Helpful Links',
   'hero_input_email' => 'Your email',
   'hero_input_name' => 'Restaurant or bar name',
@@ -19,6 +18,7 @@ return array (
   'hero_subtitle' => 'Their mobile is your menu now!',
   'hero_title' => 'Create a digital menu for your Restaurant or Bar. Engage more with your customers.',
   'join_now' => 'Join now',
+  'list_of_featured_clients' => 'Here is a list of some of our clients',
   'login' => 'Login',
   'month' => 'month',
   'my_account' => 'My Account',

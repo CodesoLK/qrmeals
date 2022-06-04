@@ -872,4 +872,11 @@ class RestorantController extends Controller
         //5. Redirect
         return redirect()->route('items.index')->withStatus(__('New language successfully created.'));
     }
+    public function ajaxsubcateg(Request $request)
+    {
+        return view('restorants.partials.subcateg', [
+            "category" => Categories::find($request->id),
+            "categ_id" => $request->categ_id 
+        ]);
+    }
 }
